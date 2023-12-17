@@ -1,51 +1,52 @@
-"use client"
-import React, { useEffect } from 'react';
-import ChatHeader from './_components/ChatHeader';
-import MessageWindow from './_components/MessageWindow';
-import InputArea from './_components/InputArea';
-import { useChatbotContext } from './_contexts/ChatbotProvider';
-import axios from 'axios';
+"use client";
+import ChatHeader from "./_components/ChatHeader";
+import MessageWindows from "./_components/MessageWindow";
+import InputArea from "./_components/InputArea";
+import { useEffect } from "react";
+
+import { mutate } from "swr";
+import { useChatbotContext } from "./_contexts/ChatbotProvider";
 
 export default function Home() {
-  const { isLoading, setIsLoading, runId, threadId } = useChatbotContext();
+  const { runId, threadId, setIsLoading, isLoading, setRunId } =
+    useChatbotContext();
 
   useEffect(() => {
-    let intervalId: any;
+    if (!runId || !threadId) return;
 
     const checkStatus = async () => {
       try {
-        const response = await axios.get(`/api/status?threadId=${threadId}&runId=${runId}`);
-        if (response.data.status === 'completed') {
-          setIsLoading(false); // Stop loading when status is complete
-          // Optionally, handle message display here if needed
-        } else if (response.data.status === 'failed') {
-          setIsLoading(false); // Stop loading on failure
-          // Display error message
-          alert('Oops! Something went wrong. Please try again later.'); // Todo, clean
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/api/status?threadId=${threadId}&runId=${runId}`
+        );
+        const { status } = await response.json();
+        setIsLoading(true);
+
+        if (status === "completed") {
+          setIsLoading(false);
+          await mutate(
+            `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/api/messages?threadId=${threadId}`
+          );
+          setRunId(undefined);
+          // You might want to do something once the run is completed.
+        } else {
+          // Recheck after a delay if not completed
+          setTimeout(checkStatus, 1000);
         }
-      } catch (error) {
-        console.error('Error checking status:', error);
-        setIsLoading(false); // Stop loading on error
-        alert('An error occurred while checking the status. Please try again later.'); // Todo, clean
-      }
+      } catch (error) {}
     };
 
-    if (isLoading && runId && threadId) {
-      intervalId = setInterval(checkStatus, 3000); // Poll every 3 seconds
-    }
-
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [isLoading, runId, threadId, setIsLoading]);
+    checkStatus();
+  }, [runId, threadId]);
 
   return (
-    <main id="chatbot-openai" className="w-screen h-screen bg-white shadow-lg overflow-hidden flex flex-col">
+    <main
+      id="chatbot-openai"
+      className="w-screen h-screen bg-white shadow-lg overflow-hidden flex flex-col"
+    >
       <ChatHeader></ChatHeader>
-      <MessageWindow></MessageWindow>
-      {isLoading && <LoadingSpinner />}
+      <MessageWindows></MessageWindows>
+      {isLoading && <LoadingSpinner></LoadingSpinner>}
       <InputArea></InputArea>
     </main>
   );
