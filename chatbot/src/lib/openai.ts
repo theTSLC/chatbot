@@ -1,18 +1,16 @@
 import OpenAI from "openai";
-import fs from "fs";
+import { getAssistantId, updateAssistantId } from "./database";
 const secretKey = process.env.OPENAI_API_KEY;
 
 export const openai = new OpenAI({
   apiKey: secretKey,
 });
 
-// Database for storing assistant ID.
-const assistantIdFilePath = "assistantId.txt";
 
 export const createAssistant = async () => {
   let assistantId;
   try {
-    assistantId = fs.readFileSync(assistantIdFilePath, "utf8");
+    assistantId = await getAssistantId();
   } catch (error) {
     console.error("Error reading assistant ID file:", error);
     console.log("Creating a new assistant...");
@@ -22,12 +20,12 @@ export const createAssistant = async () => {
     try {
       const assistantInstance = await openai.beta.assistants.create({
         instructions: "Woof woof",
-        name: "Wishbone the helpful Chatdog",
+        name: "Wishbone, the helpful Chatdog",
         tools: [{ type: "retrieval" }],
         model: "gpt-3.5-turbo-1106",
       });
 
-      fs.writeFileSync(assistantIdFilePath, assistantInstance.id);
+      await updateAssistantId(assistantInstance.id);
       return assistantInstance;
     } catch (error) {
       console.error("Error creating assistant:", error);
