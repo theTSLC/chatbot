@@ -1,4 +1,3 @@
-// src/app/api/messages/route.ts
 import { getMessagesForThread, createThreadAndRun } from "@/lib/openai";
 import { NextRequest, NextResponse } from "next/server";
 

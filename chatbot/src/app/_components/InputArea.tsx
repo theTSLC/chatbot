@@ -1,4 +1,3 @@
-// src/app/_components/InputArea.tsx
 import React from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";

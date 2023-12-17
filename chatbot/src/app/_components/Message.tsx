@@ -1,9 +1,8 @@
-// src/app/_components/Message.tsx
 import { ThreadMessage } from "openai/resources/beta/threads/messages/messages.mjs";
 import React from "react";
 
 const Message = React.forwardRef(
-  ({ message }: { message: ThreadMessage }, ref) => (
+  ({ message }: { message: ThreadMessage | any }, ref: any) => (
     <div
       ref={ref}
       className={`clear-both relative overflow-hidden ${
@@ -17,7 +16,7 @@ const Message = React.forwardRef(
             : "bg-blue-500 text-white"
         }`}
       >
-        <p>{message.content[0]?.text?.value)</p>
+        <p>{formatMessage(message.content[0]?.text?.value)}</p> // Wrap here
       </div>
     </div>
   )

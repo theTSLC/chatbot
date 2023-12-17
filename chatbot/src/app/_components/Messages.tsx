@@ -1,4 +1,3 @@
-// src/app/_components/Messages.tsx
 import { ThreadMessage } from "openai/resources/beta/threads/messages/messages.mjs";
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";

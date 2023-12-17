@@ -1,5 +1,3 @@
-
-// src/page.tsx
 "use client";
 // import ChatHeader from "./_components/ChatHeader";
 // import MessageWindows from "./_components/MessageWindow";
