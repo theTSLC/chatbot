@@ -1,21 +1,23 @@
 "use client";
-// import ChatHeader from "./_components/ChatHeader";
-// import MessageWindows from "./_components/MessageWindow";
-// import InputArea from "./_components/InputArea";
+import ChatHeader from "./_components/ChatHeader";
+import MessageWindows from "./_components/MessageWindow";
+import InputArea from "./_components/InputArea";
 import { useEffect } from "react";
 import { mutate } from "swr";
+import { useChatbotContext } from "./_contexts/ChatbotProvider";
 
 export default function Home() {
-  
+  const { isLoading } = useChatbotContext();
+
   return (
     <main
       id="chatbot-openai"
       className="w-screen h-screen bg-white shadow-lg overflow-hidden flex flex-col"
     >
-      {/* <ChatHeader></ChatHeader>
+      <ChatHeader></ChatHeader>
       <MessageWindows></MessageWindows>
       {isLoading && <LoadingSpinner></LoadingSpinner>}
-      <InputArea></InputArea> */}
+      <InputArea></InputArea>
     </main>
   );
 }

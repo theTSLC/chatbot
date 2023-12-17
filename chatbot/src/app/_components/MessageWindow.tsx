@@ -1,14 +1,13 @@
 import React from "react";
 import useSWR from "swr";
 import { fetcher } from "../_utils/fetcher";
-import { ThreadMessagesPage } from "openai/resources/beta/threads/messages/messages.mjs";
 
 import Messages from "./Messages";
 import { useChatbotContext } from "../_contexts/ChatbotProvider";
 
-function MessageWindows() {
+const MessageWindows = () => {
   const { threadId } = useChatbotContext();
-  const { data: messages, error } = useSWR<ThreadMessagesPage | any>(() => {
+  const { data: messages, error } = useSWR<any>(() => {
     if (threadId) {
       return `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/api/messages?threadId=${threadId}`;
     }

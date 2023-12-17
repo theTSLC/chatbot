@@ -1,8 +1,7 @@
-import { ThreadMessage } from "openai/resources/beta/threads/messages/messages.mjs";
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 
-function Messages({ messages }: { messages: ThreadMessage[] }) {
+function Messages({ messages }: { messages: any[] }) {
   const lastMessageRef = useRef<any>(null);
 
   // Scrolls to the last message whenever the messages update
