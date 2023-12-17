@@ -16,7 +16,7 @@ const Message = React.forwardRef(
             : "bg-blue-500 text-white"
         }`}
       >
-        <p>{formatMessage(message.content[0]?.text?.value)}</p> // Wrap here
+        <p>{formatMessage(message.content[0]?.text?.value)}</p>
       </div>
     </div>
   )

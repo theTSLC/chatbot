@@ -1,4 +1,3 @@
-// src/lib/openai.ts
 import OpenAI from "openai";
 import fs from "fs";
 const secretKey = process.env.OPENAI_API_KEY;
@@ -74,4 +73,15 @@ export const createRun = async (assistantId: string, threadId: string) => {
 export const statusOfRun = async (threadId: string, runId: string) => {
   let runStatus = await openai.beta.threads.runs.retrieve(threadId, runId);
   return runStatus.status;
+};
+
+export const createThreadAndRun = async (
+  threadId: string | undefined,
+  question: string
+) => {
+  const myAssistant = await createAssistant();
+  const thread = await createThread(threadId);
+  await addMessageToThread(thread.id, question);
+  const run = await createRun(myAssistant.id, thread.id);
+  return { run, thread };
 };

@@ -84,16 +84,6 @@ function InputArea() {
           </svg>
         </button>
       </form>
-      <p className="text-center text-xs py-2 text-gray-700">
-        Powered By{" "}
-        <Link
-          target="_blank"
-          className="font-semibold"
-          href="https://www.we-hate-copy-pasting.com/"
-        >
-          WHCP
-        </Link>
-      </p>
     </div>
   );
 }
