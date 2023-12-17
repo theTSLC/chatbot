@@ -1,13 +1,14 @@
+import { ThreadMessage } from "openai/resources/beta/threads/messages/messages.mjs";
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 
-function Messages({ messages }: { messages: any[] }) {
+function Messages({ messages }: { messages: ThreadMessage[] }) {
   const lastMessageRef = useRef<any>(null);
 
-  // Scrolls to the last message whenever the messages update
+  // Scroll to the last message whenever the messages update
   useEffect(() => {
     if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 

@@ -1,8 +1,9 @@
+import { ThreadMessage } from "openai/resources/beta/threads/messages/messages.mjs";
 import React from "react";
 import { formatMessage } from "../_utils/formatMessage";
 
 const Message = React.forwardRef(
-  ({ message }: { message: any }, ref: any) => (
+  ({ message }: { message: ThreadMessage | any }, ref: any) => (
     <div
       ref={ref}
       className={`clear-both relative overflow-hidden ${

@@ -1,23 +1,23 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useChatbotContext } from "../_contexts/ChatbotProvider";
 import { mutate } from "swr";
-import axios from "axios";
+import { useChatbotContext } from "../_contexts/ChatbotProvider";
 
 interface FormFields {
   question: string;
 }
 
 function InputArea() {
+  const { threadId, setThreadId, setRunId, setIsLoading, isLoading } =
+    useChatbotContext();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<FormFields>();
-
-  const { threadId, setThreadId, setRunId, setIsLoading, isLoading } = useChatbotContext();
 
   const onSubmit = async (data: FormFields) => {
     mutate(
@@ -30,6 +30,7 @@ function InputArea() {
           content: [{ text: { value: data.question } }],
           role: "user",
         };
+
         return {
           ...currentData,
           data: [...(currentData?.data ?? []), newMessage],
@@ -51,10 +52,10 @@ function InputArea() {
   };
 
   return (
-    <div className="sticky bottom-0 bg-white p-2">
+    <div className="sticky bottom-0 text-black bg-white p-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center text-black border rounded"
+        className="flex items-center border rounded mr-2"
       >
         <input
           className="flex-grow p-2 border-0"
