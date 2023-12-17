@@ -1,2 +1,2 @@
 ### Description
-A chatbot 
+A chatbot named Wishbone.
