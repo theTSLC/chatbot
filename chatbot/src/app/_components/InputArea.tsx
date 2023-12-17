@@ -16,7 +16,34 @@ function InputArea() {
   } = useForm<FormFields>();
 
   const onSubmit = async (data: FormFields) => {
-     // To add logic
+    mutate(
+      `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/api/messages?threadId=${threadId}`,
+      async (currentData: any) => {
+        // This is part of an optimistic loading that shows user question immideatly.
+        const newMessage = {
+          id: "temp-id",
+          thread_id: threadId,
+          content: [{ text: { value: data.question } }],
+          role: "user",
+        };
+        return {
+          ...currentData,
+          data: [...(currentData?.data ?? []), newMessage],
+        };
+      },
+      false
+    );
+    setIsLoading(true);
+    reset();
+
+    const config = {
+      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/api/messages`,
+      data: { ...data, threadId },
+    };
+    const response = await axios<{ runId: string; threadId: string }>(config);
+    setThreadId(response.data.threadId);
+    setRunId(response.data.runId);
   };
 
   return (

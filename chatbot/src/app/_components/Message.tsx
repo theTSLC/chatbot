@@ -1,5 +1,6 @@
 import { ThreadMessage } from "openai/resources/beta/threads/messages/messages.mjs";
 import React from "react";
+import { formatMessage } from "../_utils/formatMessage";
 
 const Message = React.forwardRef(
   ({ message }: { message: ThreadMessage | any }, ref: any) => (
