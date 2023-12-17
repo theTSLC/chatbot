@@ -54,7 +54,7 @@ function InputArea() {
     <div className="sticky bottom-0 bg-white p-2">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center border rounded"
+        className="flex items-center text-black border rounded"
       >
         <input
           className="flex-grow p-2 border-0"

@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ noMessages: true });
   }
   const messages = await getMessagesForThread(threadId);
+
   return NextResponse.json(messages);
 }
 

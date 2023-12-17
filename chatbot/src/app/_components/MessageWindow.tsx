@@ -18,7 +18,7 @@ const MessageWindows = () => {
     return (
       <div className="p-4 bg-red-500 text-white">Error loading messages...</div>
     );
-  if (!messages) return; // It's still loading messages
+  if (!messages) return null; // It's still loading messages
   if (messages?.noMessages)
     return (
       <p className="bg-red-400 p-4 text-white">
